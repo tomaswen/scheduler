@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "components/Application.scss";
 import DayList from "components/DayList";
-import Appointment from "components/Appointment/index"
+import Appointment from "components/Appointment/index";
 
 const appointments = [
   {
@@ -17,8 +17,8 @@ const appointments = [
         id: 1,
         name: "Sylvia Palmer",
         avatar: "https://i.imgur.com/LpaY82x.png",
-      }
-    }
+      },
+    },
   },
   {
     id: 3,
@@ -37,10 +37,9 @@ const appointments = [
         id: 1,
         name: "Sylvia Palmer",
         avatar: "https://i.imgur.com/LpaY82x.png",
-      }
-    }
+      },
+    },
   },
-
 ];
 
 const days = [
@@ -73,11 +72,7 @@ export default function Application(props) {
         />
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
-          <DayList
-            days={days}
-            day={day}
-            setDay={(day) => setDay(day)}
-          />
+          <DayList days={days} day={day} setDay={(day) => setDay(day)} />
         </nav>
         <img
           className="sidebar__lhl sidebar--centered"
@@ -88,8 +83,11 @@ export default function Application(props) {
       <section className="schedule">
         {appointments.map((individualAppointment) => {
           return (
-            <Appointment key= {individualAppointment.id} {...individualAppointment}/> 
-          )
+            <Appointment
+              key={individualAppointment.id}
+              {...individualAppointment}
+            />
+          );
         })}
         <Appointment key="last" time="5pm" />
       </section>
