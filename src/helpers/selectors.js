@@ -10,3 +10,16 @@ export function getAppointmentsForDay(state, day) {
     });
   }
 }
+
+export function getInterview(state, interview) {
+  if (!interview) {
+    return null;
+  } else {
+    const interviewerID = interview.interviewer;
+    let result = {
+      ...interview,
+      interviewer: state.interviewers[interviewerID],
+    };
+    return result;
+  }
+}
