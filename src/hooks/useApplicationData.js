@@ -47,7 +47,7 @@ export default function useApplicationData() {
 
   function bookInterview(id, interview) {
     const dayID = dayIdUsingDayName(state, state.day);
-    const numberOfSpotsBeforeAdd = calculateSpots(state, state.day);
+    
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview },
@@ -56,9 +56,11 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment,
     };
+    const newState ={ ...state, appointments}
+    const newNumberOfSpots = calculateSpots(newState, state.day);
     const day = {
       ...state.days[dayID],
-      spots: numberOfSpotsBeforeAdd - 1,
+      spots: newNumberOfSpots,
     };
     const days = [...state.days];
     days[dayID] = { ...day };
@@ -72,7 +74,7 @@ export default function useApplicationData() {
 
   function cancelInterview(id) {
     const dayID = dayIdUsingDayName(state, state.day);
-    const numberOfSpotsBeforeAdd = calculateSpots(state, state.day);
+
     const appointment = {
       ...state.appointments[id],
       interview: null,
@@ -81,9 +83,11 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment,
     };
+    const newState ={ ...state, appointments}
+    const newNumberOfSpots = calculateSpots(newState, state.day);
     const day = {
       ...state.days[dayID],
-      spots: numberOfSpotsBeforeAdd + 1,
+      spots: newNumberOfSpots,
     };
     const days = [...state.days];
     days[dayID] = { ...day };
