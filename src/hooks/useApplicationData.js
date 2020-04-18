@@ -81,11 +81,9 @@ export default function useApplicationData() {
     const newNumberOfSpots = calculateSpots(newState, state.day);
     newState.days[dayIndex].spots = newNumberOfSpots;
 
-    return Promise.resolve(
-      axios.put(`/api/appointments/${id}`, appointment).then(() => {
-        dispatch({ type: SET_INTERVIEW, newState });
-      })
-    );
+    return axios.put(`/api/appointments/${id}`, appointment).then(() => {
+      dispatch({ type: SET_INTERVIEW, newState });
+    });
   }
 
   function cancelInterview(id) {
@@ -103,11 +101,9 @@ export default function useApplicationData() {
     const newNumberOfSpots = calculateSpots(newState, state.day);
     newState.days[dayIndex].spots = newNumberOfSpots;
 
-    return Promise.resolve(
-      axios.delete(`/api/appointments/${id}`).then(() => {
-        dispatch({ type: SET_INTERVIEW, newState });
-      })
-    );
+    return axios.delete(`/api/appointments/${id}`).then(() => {
+      dispatch({ type: SET_INTERVIEW, newState });
+    });
   }
   return { state, setDay, bookInterview, cancelInterview };
 }
