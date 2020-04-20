@@ -16,33 +16,31 @@ const SAVING = "Saving";
 const DELETING = "Deleting";
 const CONFIRM = "CONFIRM";
 const EDIT = "EDIT";
-const NOTVALID = "NOT VALID";
 const ERROR_SAVE = "ERROR_SAVE";
 const ERROR_DELETE = "ERROR_DELETE";
+
 export default function Appointment(props) {
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
+
   function onAdd() {
     transition(CREATE);
   }
   function onCancel() {
     back();
   }
+
   function save(name, interviewer) {
-    if (!name || !interviewer) {
-      transition(NOTVALID);
-    } else {
-      const interview = {
-        student: name,
-        interviewer,
-      };
-      transition(SAVING);
-      props
-        .bookInterview(props.id, interview)
-        .then(() => transition(SHOW))
-        .catch(() => transition(ERROR_SAVE, true));
-    }
+    const interview = {
+      student: name,
+      interviewer,
+    };
+    transition(SAVING);
+    props
+      .bookInterview(props.id, interview)
+      .then(() => transition(SHOW))
+      .catch(() => transition(ERROR_SAVE, true));
   }
 
   function deleteInteview() {
@@ -99,9 +97,6 @@ export default function Appointment(props) {
           name={props.interview.student}
           interviewer={props.interview.interviewer.id}
         />
-      )}
-      {mode === NOTVALID && (
-        <Error message="Input is empty" onClose={onCancel} />
       )}
       {mode === ERROR_SAVE && (
         <Error message="Could not save appointment" onClose={onCancel} />
