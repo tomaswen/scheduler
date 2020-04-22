@@ -14,7 +14,7 @@ export default function useApplicationData() {
     appointments: {},
     interviewers: {},
   });
-
+  //Calculates the number of spots remaining by checking array of interviews in day
   function calculateSpots(state, day) {
     const appointmentArray = getAppointmentsForDay(state, day);
     let spots = 0;
@@ -25,7 +25,7 @@ export default function useApplicationData() {
     });
     return spots;
   }
-
+  // returns the key for the day matching day string parameter
   function dayIndexUsingDayName(state, day) {
     for (let dayKey in state.days) {
       if (state.days[dayKey].name === day) {
@@ -33,7 +33,7 @@ export default function useApplicationData() {
       }
     }
   }
-
+  //Fetches the data from server at load
   useEffect(() => {
     Promise.all([
       axios.get("/api/days"),
@@ -44,6 +44,7 @@ export default function useApplicationData() {
     });
   }, []);
 
+  //Set day state
   const setDay = (day) => dispatch({ type: SET_DAY, value: day });
 
   function bookInterview(id, interview) {
@@ -57,9 +58,9 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment,
     };
-    const newState = { ...state, appointments };
-    const newNumberOfSpots = calculateSpots(newState, state.day);
-    newState.days[dayIndex].spots = newNumberOfSpots;
+    const newState = { ...state, appointments }; //create a copy of state with new appointments array
+    const newNumberOfSpots = calculateSpots(newState, state.day); // Calculate new number of spots 
+    newState.days[dayIndex].spots = newNumberOfSpots; //and updates it on newState
 
     return axios.put(`/api/appointments/${id}`, appointment).then(() => {
       dispatch({ type: SET_INTERVIEW, newState });
@@ -77,9 +78,9 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment,
     };
-    const newState = { ...state, appointments };
-    const newNumberOfSpots = calculateSpots(newState, state.day);
-    newState.days[dayIndex].spots = newNumberOfSpots;
+    const newState = { ...state, appointments }; //create a copy of state with new appointments array
+    const newNumberOfSpots = calculateSpots(newState, state.day); // Calculate new number of spots 
+    newState.days[dayIndex].spots = newNumberOfSpots; //and updates it on newState
 
     return axios.delete(`/api/appointments/${id}`).then(() => {
       dispatch({ type: SET_INTERVIEW, newState });
